@@ -23,6 +23,21 @@ bool isWhiteSpace(char c){
 	return c == ' ' || c == '\t' || c == '\n';
 }
 
+void isA(string *A, int n, string p){
+		cout << "Results:" << endl;
+    bool found = false;
+    for (int i = 0; i < n; i++) {
+        size_t pos = A[i].find(p);
+        if (pos != string::npos) {
+            found = true;
+            cout << "Xau P xuat hien trong xau thu " << i + 1 << " cua mang A, vi tri bat dau: " << pos << endl;
+        }
+    }
+
+    if (!found) {
+        cout << "Xau P khong xuat hien trong mang A." << endl;
+    }
+}
 
 void removeSpace(char *&s){
 	int count = 0;
@@ -107,6 +122,7 @@ int main(){
 	cout<<"nhap vao so xau: "; cin>>n;
 	cin.ignore();// doc xau thi ko doc ky tu xuong dong
 	
+	// create a array A contain n string
 	string *A = new string[n];
 	
 	nhapXau(A, n);
@@ -114,11 +130,26 @@ int main(){
 	full(A, n);
 	inXau(A, n);
 	
-	string h = "Tu";
+	char h = 'tu';
+	// dem so luong tu trong moi xau cua mang
 	for (int i = 0; i < n; i++)
 	{
 	    int count = CountString(A[i], h);
 	    cout << "So luong tu trong xau " << i + 1 << ": " << count << endl;
 	}
+
+	
+//	string p;
+//	cout<<"xau mau p: ";
+//	getline(cin, p);
+//	cout<<endl;
+	
+//	isA(A, n, p);
+	
+
+	
+	
+	
+	
 	return 0;
 }
