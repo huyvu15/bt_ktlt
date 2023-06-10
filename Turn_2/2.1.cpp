@@ -29,7 +29,7 @@ int main(){
 	cout<<"Cac so can tim la: "<<endl;
 	for(i = 0; i< 100; i++){
 		if(gcd(daotrattu(i), i) == 1){
-			cout<<i<<"    ";
+			cout<<i<<"           ";
 			count++;	
 		}
 			

@@ -55,7 +55,6 @@ void removeSpaceFull(string *A, int n){
     }
 }
 
-
 void tinhchinh(string& s) {
     bool capitalizeNext = true;
     
@@ -111,14 +110,14 @@ int main(){
 	
 	nhapXau(A, n);
 	removeSpaceFull(A, n);
-	full(A, n);
+//	full(A, n);
 	inXau(A, n);
 	
-	string h = "Tu";
-	for (int i = 0; i < n; i++)
-	{
-	    int count = CountString(A[i], h);
-	    cout << "So luong 'tu' trong xau " << i + 1 << ": " << count << endl;
-	}
+//	string h = "Tu";
+//	for (int i = 0; i < n; i++)
+//	{
+//	    int count = CountString(A[i], h);
+//	    cout << "So luong 'tu' trong xau " << i + 1 << ": " << count << endl;
+//	}
 	return 0;
 }
