@@ -2,33 +2,35 @@
 #include <fstream>
 #include <string>
 #include <vector>
+
 using namespace std;
+
 struct Nguoi {
-     string hoTen;
+    string hoTen;
     int tuoi;
     double luong;
 };
 
-void ghiNguoiVaoTep(const  string& tenTep, const  vector<Nguoi>& danhSach) {
-     ofstream tep(tenTep,  ios::binary |  ios::out);
+void ghiNguoiVaoTep(const string& tenTep, const vector<Nguoi>& danhSach) {
+    ofstream tep(tenTep.c_str(), ios::binary | ios::out);
 
     if (!tep) {
-         cout << "Khong the mo tep de ghi." <<  endl;
+        cout << "Khong the mo tep de ghi." << endl;
         return;
     }
 
-    for (const Nguoi& nguoi : danhSach) {
-        tep.write(reinterpret_cast<const char*>(&nguoi), sizeof(Nguoi));
+    for (size_t i = 0; i < danhSach.size(); ++i) {
+        tep.write(reinterpret_cast<const char*>(&danhSach[i]), sizeof(Nguoi));
     }
 
     tep.close();
 }
 
-void docNguoiTuTep(const  string& tenTep,  vector<Nguoi>& danhSach) {
-     ifstream tep(tenTep,  ios::binary |  ios::in);
+void docNguoiTuTep(const string& tenTep, vector<Nguoi>& danhSach) {
+    ifstream tep(tenTep.c_str(), ios::binary | ios::in);
 
     if (!tep) {
-         cout << "Khong the mo tep de doc." <<  endl;
+        cout << "Khong the mo tep de doc." << endl;
         return;
     }
 
@@ -40,11 +42,12 @@ void docNguoiTuTep(const  string& tenTep,  vector<Nguoi>& danhSach) {
     tep.close();
 }
 
- string timNguoiCoLuongCaoNhat(const  vector<Nguoi>& danhSach) {
+string timNguoiCoLuongCaoNhat(const vector<Nguoi>& danhSach) {
     double luongCaoNhat = 0;
-     string tenNguoi;
+    string tenNguoi;
 
-    for (const Nguoi& nguoi : danhSach) {
+    for (size_t i = 0; i < danhSach.size(); ++i) {
+        const Nguoi& nguoi = danhSach[i];
         if (nguoi.luong > luongCaoNhat) {
             luongCaoNhat = nguoi.luong;
             tenNguoi = nguoi.hoTen;
@@ -54,7 +57,7 @@ void docNguoiTuTep(const  string& tenTep,  vector<Nguoi>& danhSach) {
     return tenNguoi;
 }
 
-double tinhLuongTrungBinh(const  vector<Nguoi>& danhSach) {
+double tinhLuongTrungBinh(const vector<Nguoi>& danhSach) {
     double tongLuong = 0;
     int soNguoi = danhSach.size();
 
@@ -62,18 +65,19 @@ double tinhLuongTrungBinh(const  vector<Nguoi>& danhSach) {
         return 0;
     }
 
-    for (const Nguoi& nguoi : danhSach) {
+    for (size_t i = 0; i < danhSach.size(); ++i) {
+        const Nguoi& nguoi = danhSach[i];
         tongLuong += nguoi.luong;
     }
 
     return tongLuong / soNguoi;
 }
 
-void suaThongTinNguoi(const  string& tenTep, int viTri) {
-     fstream tep(tenTep,  ios::binary |  ios::in |  ios::out);
+void suaThongTinNguoi(const string& tenTep, int viTri) {
+    fstream tep(tenTep.c_str(), ios::binary | ios::in | ios::out);
 
     if (!tep) {
-         cout << "Khong the mo tep." <<  endl;
+        cout << "Khong the mo tep." << endl;
         return;
     }
 
@@ -82,13 +86,13 @@ void suaThongTinNguoi(const  string& tenTep, int viTri) {
     Nguoi nguoi;
     tep.read(reinterpret_cast<char*>(&nguoi), sizeof(Nguoi));
 
-     cout << "Nhap thong tin moi cho nguoi thu " << viTri + 1 << ":" <<  endl;
-     cout << "Ho ten: ";
-     getline( cin >>  ws, nguoi.hoTen);
-     cout << "Tuoi: ";
-     cin >> nguoi.tuoi;
-     cout << "Luong: ";
-     cin >> nguoi.luong;
+    cout << "Nhap thong tin moi cho nguoi thu " << viTri + 1 << ":" << endl;
+    cout << "Ho ten: ";
+    getline(cin >> ws, nguoi.hoTen);
+    cout << "Tuoi: ";
+    cin >> nguoi.tuoi;
+    cout << "Luong: ";
+    cin >> nguoi.luong;
 
     tep.seekp(viTri * sizeof(Nguoi));
     tep.write(reinterpret_cast<const char*>(&nguoi), sizeof(Nguoi));
@@ -97,50 +101,49 @@ void suaThongTinNguoi(const  string& tenTep, int viTri) {
 }
 
 int main() {
-     vector<Nguoi> danhSachNguoi;
+    vector<Nguoi> danhSachNguoi;
 
     int soNguoi;
-     cout << "Nhap so luong nguoi: ";
-     cin >> soNguoi;
+    cout << "Nhap so luong nguoi: ";
+    cin >> soNguoi;
 
+    cin.ignore();
     for (int i = 0; i < soNguoi; ++i) {
         Nguoi nguoi;
-         cin.ignore();
-         cout << "Nhap thong tin nguoi thu " << i + 1 << ":" <<  endl;
-         cout << "Ho ten: ";
-         getline( cin, nguoi.hoTen);
-         cout << "Tuoi: ";
-         cin >> nguoi.tuoi;
-         cout << "Luong: ";
-         cin >> nguoi.luong;
+        cout << "Nhap thong tin nguoi thu " << i + 1 << ":" << endl;
+        cout << "Ho ten: ";
+        getline(cin, nguoi.hoTen);
+        cout << "Tuoi: ";
+        cin >> nguoi.tuoi;
+        cout << "Luong: ";
+        cin >> nguoi.luong;
+        cin.ignore();
         danhSachNguoi.push_back(nguoi);
     }
 
-     string tenTep = "danh_sach_nguoi.bin";
+    string tenTep = "danh_sach_nguoi.bin";
     ghiNguoiVaoTep(tenTep, danhSachNguoi);
 
-     vector<Nguoi> danhSachNguoiDaGhi;
+    vector<Nguoi> danhSachNguoiDaGhi;
     docNguoiTuTep(tenTep, danhSachNguoiDaGhi);
 
-     string tenNguoiCaoLuongNhat = timNguoiCoLuongCaoNhat(danhSachNguoiDaGhi);
-     cout << "Ten nguoi co luong cao nhat: " << tenNguoiCaoLuongNhat <<  endl;
+    string tenNguoiCaoLuongNhat = timNguoiCoLuongCaoNhat(danhSachNguoiDaGhi);
+    cout << "Ten nguoi co luong cao nhat: " << tenNguoiCaoLuongNhat << endl;
 
     double luongTrungBinh = tinhLuongTrungBinh(danhSachNguoiDaGhi);
-     cout << "Luong trung binh: " << luongTrungBinh <<  endl;
+    cout << "Luong trung binh: " << luongTrungBinh << endl;
 
     int viTriSua;
-     cout << "Nhap vi tri ban ghi can sua: ";
-     cin >> viTriSua;
+    cout << "Nhap vi tri ban ghi can sua: ";
+    cin >> viTriSua;
 
     if (viTriSua >= 0 && viTriSua < danhSachNguoiDaGhi.size()) {
         suaThongTinNguoi(tenTep, viTriSua);
-         cout << "Da sua thong tin nguoi thu " << viTriSua + 1 << endl;
+        cout << "Da sua thong tin nguoi thu " << viTriSua + 1 << endl;
     }
     else {
-         cout << "Vi tri khong hop le." <<  endl;
+        cout << "Vi tri khong hop le." << endl;
     }
 
     return 0;
 }
-
-
